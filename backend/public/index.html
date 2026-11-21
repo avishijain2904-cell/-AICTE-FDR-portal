@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101d3a" />
+  <meta name="description" content="AICTE FDR Security Deposit Portal" />
+  <title>AICTE | FDR Security Deposit Portal</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="top-strip" aria-hidden="true"></div>
+  <header class="gov-header">
+    <div class="gov-emblem" aria-hidden="true">AICTE</div>
+    <div class="gov-heading">
+      <h1>AICTE FDR Security Deposit Portal</h1>
+      <p>All India Council for Technical Education · Digital Services</p>
+    </div>
+    <div class="gov-tag"><span class="header-status-dot"></span> Secure access</div>
+  </header>
+
+  <div id="login-screen" class="login-screen">
+    <section class="login-intro" aria-labelledby="welcome-title">
+      <span class="intro-kicker">FDR SECURITY DEPOSIT MANAGEMENT</span>
+      <div class="intro-rule"></div>
+      <h2 id="welcome-title">Welcome<br />to your<br /><span>secure workspace.</span></h2>
+      <p>Manage fixed deposit receipts through a transparent, traceable and role-based workflow.</p>
+      <div class="feature-list">
+        <div class="feature-item"><span class="feature-icon">↗</span><span>Access your FDR dashboard</span></div>
+        <div class="feature-item"><span class="feature-icon">▤</span><span>Review and manage records</span></div>
+        <div class="feature-item"><span class="feature-icon">✓</span><span>Track scrutiny and verification</span></div>
+        <div class="feature-item"><span class="feature-icon">◷</span><span>Maintain a traceable workflow</span></div>
+      </div>
+      <div class="intro-footnote"><span class="shield-icon">✓</span> Authorised users only <span class="footnote-divider">•</span> Secure portal access</div>
+    </section>
+
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-card-top">
+        <span class="secure-pill"><span class="secure-dot"></span> SECURE LOGIN</span>
+        <div class="login-mini-mark" aria-hidden="true">A</div>
+      </div>
+      <h2 id="login-title">Sign in</h2>
+      <p class="login-subtitle">Select your account type and continue.</p>
+
+      <form id="login-form">
+        <fieldset class="account-type-field">
+          <legend>Account type</legend>
+          <div class="account-type-grid">
+            <label class="account-type-option">
+              <input type="radio" name="account-type" value="INSTITUTION" checked />
+              <span class="account-type-card"><span class="account-icon">▥</span><strong>Institution</strong></span>
+            </label>
+            <label class="account-type-option">
+              <input type="radio" name="account-type" value="SCRUTINY_OFFICER" />
+              <span class="account-type-card"><span class="account-icon">✓</span><strong>Scrutiny Officer</strong></span>
+            </label>
+            <label class="account-type-option">
+              <input type="radio" name="account-type" value="VERIFICATION_OFFICER" />
+              <span class="account-type-card"><span class="account-icon">▣</span><strong>Verification</strong></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="login-field">
+          <label for="email">Official email</label>
+          <div class="input-with-icon"><span aria-hidden="true">✉</span><input id="email" type="email" autocomplete="username" placeholder="name@institution.edu.in" required /></div>
+        </div>
+        <div class="login-field">
+          <label for="password">Password</label>
+          <div class="input-with-icon password-wrap"><span aria-hidden="true">▣</span><input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /><button id="password-toggle" class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></div>
+        </div>
+        <p id="login-error" class="error-message" role="alert" aria-live="polite"></p>
+        <button class="primary-button full-width login-submit" type="submit"><span>Sign in securely</span><span aria-hidden="true">→</span></button>
+      </form>
+      <div class="login-divider"><span>AUTHORISED ACCESS</span></div>
+      <p class="security-note"><span class="security-lock">✓</span> Your access is protected by role-based permissions.</p>
+    </section>
+  </div>
+
+  <div id="app-screen" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark small">A</div>
+        <div><strong>AICTE</strong><span>FDR PORTAL</span></div>
+      </div>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav id="sidebar-nav" class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">▦</span><span>Dashboard</span></button>
+        <button class="nav-item" data-view="fdrs"><span class="nav-icon">▤</span><span>FDR Records</span></button>
+        <button class="nav-item" data-view="queue"><span class="nav-icon">◷</span><span>Review Queue</span></button>
+        <button class="nav-item" data-view="new-fdr" id="new-fdr-nav"><span class="nav-icon">＋</span><span>Submit New FDR</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="online-dot"></div><div><strong>Portal services</strong><span>Connected interface</span></div></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow">AICTE · DIGITAL SERVICES</p><h2 id="page-title">Dashboard</h2></div>
+        <div class="profile-area">
+          <div class="avatar" id="user-avatar">U</div>
+          <div class="profile-info"><strong id="user-name">Portal User</strong><span id="user-role">Authorised user</span></div>
+          <button id="logout-button" class="secondary-button">Sign out</button>
+        </div>
+      </header>
+      <section id="notice-area" aria-live="polite"></section>
+
+      <section id="dashboard-view" class="view">
+        <div class="welcome-panel">
+          <div><p class="eyebrow light">SECURITY DEPOSIT MANAGEMENT</p><h1>Welcome to your workspace</h1><p>Manage fixed deposit receipts through a transparent, traceable workflow.</p></div>
+          <div class="welcome-symbol">FDR</div>
+        </div>
+        <div class="section-heading"><div><h3>Portfolio overview</h3><p>Summary of records available to your account</p></div><button class="secondary-button" id="refresh-button">↻ Refresh data</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Total FDRs</span><strong id="stat-total">—</strong><small>Records in your accessible list</small></article>
+          <article class="stat-card"><span>Awaiting action</span><strong id="stat-pending">—</strong><small>Pending review or verification</small></article>
+          <article class="stat-card"><span>Verified</span><strong id="stat-verified">—</strong><small>Bank verification recorded</small></article>
+          <article class="stat-card"><span>Expiring / matured</span><strong id="stat-expiring">—</strong><small>Requires attention</small></article>
+        </div>
+        <div class="section-heading"><div><h3>Recent FDR records</h3><p>Latest records from the portal</p></div><button class="text-button" data-open-view="fdrs">View all records →</button></div>
+        <div id="recent-records" class="table-card"></div>
+      </section>
+
+      <section id="fdrs-view" class="view hidden">
+        <div class="section-heading"><div><h3>FDR register</h3><p>Search and review available fixed deposit records</p></div><button class="primary-button" id="new-fdr-button">＋ New FDR</button></div>
+        <div class="toolbar"><input id="search-fdrs" type="search" placeholder="Search FDR number or bank..." /><select id="status-filter"><option value="">All statuses</option><option>DRAFT</option><option>SUBMITTED</option><option>UNDER_SCRUTINY</option><option>CLARIFICATION_PENDING</option><option>AWAITING_VERIFICATION</option><option>BANK_VERIFIED</option><option>ACTIVE</option><option>EXPIRING</option><option>MATURED</option><option>DISCREPANCY</option><option>REJECTED</option><option>RELEASED</option></select></div>
+        <div id="all-records" class="table-card"></div>
+      </section>
+
+      <section id="queue-view" class="view hidden">
+        <div class="section-heading"><div><h3>My action queue</h3><p>FDRs requiring attention for your role</p></div><button class="secondary-button" id="refresh-queue-button">↻ Refresh queue</button></div>
+        <div id="queue-records" class="table-card"></div>
+      </section>
+
+      <section id="new-fdr-view" class="view hidden">
+        <div class="section-heading"><div><h3>Submit a fixed deposit receipt</h3><p>Enter the FDR details as recorded by the bank</p></div></div>
+        <form id="fdr-form" class="form-card">
+          <div class="form-grid">
+            <div><label for="fdr-number">FDR number *</label><input id="fdr-number" required maxlength="100" /></div>
+            <div><label for="bank-name">Bank name *</label><input id="bank-name" required minlength="2" maxlength="150" /></div>
+            <div><label for="branch-name">Branch name</label><input id="branch-name" maxlength="150" /></div>
+            <div><label for="fdr-amount">Amount (₹) *</label><input id="fdr-amount" type="number" min="0.01" step="0.01" required /></div>
+            <div><label for="issue-date">Issue date *</label><input id="issue-date" type="date" required /></div>
+            <div><label for="maturity-date">Maturity date *</label><input id="maturity-date" type="date" required /></div>
+            <div class="full-span"><label for="lien-favor">Lien in favour of</label><input id="lien-favor" value="AICTE" maxlength="150" /></div>
+            <div class="full-span">
+              <label for="fdr-pdf">Upload FDR PDF *</label>
+              <input id="fdr-pdf" name="fdrPdf" type="file"
+                     accept="application/pdf,.pdf" required />
+              <small class="form-note">PDF only, maximum 10 MB.</small>
+              <p id="fdr-pdf-name" aria-live="polite"></p>
+            </div>
+          </div>
+          <p class="form-note">New records are saved as drafts. You can submit them for scrutiny after creation.</p>
+          <div class="form-actions"><button type="button" class="secondary-button" data-open-view="fdrs">Cancel</button><button type="submit" class="primary-button">Save FDR draft</button></div>
+        </form>
+      </section>
+
+      <section id="detail-view" class="view hidden">
+        <div class="section-heading"><div><h3>FDR details</h3><p>Record information and available actions</p></div><button class="secondary-button" data-open-view="fdrs">← Back to register</button></div>
+        <div id="detail-content"></div>
+      </section>
+      <footer>AICTE FDR Security Deposit Portal <span>· Prototype interface · Verify official requirements before production use</span></footer>
+    </main>
+  </div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

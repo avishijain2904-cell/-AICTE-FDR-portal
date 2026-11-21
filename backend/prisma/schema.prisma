@@ -1,0 +1,179 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  INSTITUTION
+  SCRUTINY_OFFICER
+  VERIFICATION_OFFICER
+  APPROVING_AUTHORITY
+  ADMIN
+  AUDITOR
+}
+
+enum FdrStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_SCRUTINY
+  DISCREPANCY
+  CLARIFICATION_PENDING
+  BANK_VERIFIED
+  ACTIVE
+  EXPIRING
+  MATURED
+  OVERDUE
+  RENEWED
+  RELEASE_REQUESTED
+  RELEASED
+  REJECTED
+  AWAITING_VERIFICATION
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  MISMATCH
+  REJECTED
+}
+
+enum ReleaseStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  RELEASED
+}
+
+model Institution {
+  id           String   @id @default(cuid())
+  name         String
+  aicteId      String?  @unique
+  email        String   @unique
+  phone        String?
+  address      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  users        User[]
+  fdrs         FdrInstrument[]
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          UserRole
+  active        Boolean  @default(true)
+  institutionId String?
+  institution   Institution? @relation(fields: [institutionId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  auditLogs     AuditLog[]
+}
+
+model FdrInstrument {
+  id                String   @id @default(cuid())
+  fdrNumber         String
+  bankName          String
+  branchName        String?
+  amount            Decimal  @db.Decimal(14, 2)
+  issueDate         DateTime
+  maturityDate      DateTime
+  lienInFavorOf     String   @default("AICTE")
+  status            FdrStatus @default(DRAFT)
+
+  institutionId     String
+  institution       Institution @relation(fields: [institutionId], references: [id])
+
+  documents         FdrDocument[]
+  verifications     Verification[]
+  renewalsFrom      Renewal[] @relation("OldFdr")
+  renewalsTo        Renewal[] @relation("NewFdr")
+  releaseRequests   ReleaseRequest[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([bankName, fdrNumber])
+  @@index([status, maturityDate])
+  @@index([institutionId])
+}
+
+model FdrDocument {
+  id             String   @id @default(cuid())
+  fileName       String
+  storageKey     String
+  sha256         String
+  version        Int      @default(1)
+  uploadedAt     DateTime @default(now())
+
+  fdrId          String
+  fdr            FdrInstrument @relation(fields: [fdrId], references: [id])
+
+  @@index([fdrId])
+}
+
+model Verification {
+  id             String   @id @default(cuid())
+  source         String
+  status         VerificationStatus @default(PENDING)
+  declaredData   Json?
+  confirmedData  Json?
+  remarks        String?
+  verifiedAt     DateTime?
+
+  fdrId          String
+  fdr            FdrInstrument @relation(fields: [fdrId], references: [id])
+
+  createdAt      DateTime @default(now())
+
+  @@index([fdrId, status])
+}
+
+model Renewal {
+  id           String   @id @default(cuid())
+  oldFdrId     String
+  newFdrId     String   @unique
+  createdAt    DateTime @default(now())
+
+  oldFdr       FdrInstrument @relation("OldFdr", fields: [oldFdrId], references: [id])
+  newFdr       FdrInstrument @relation("NewFdr", fields: [newFdrId], references: [id])
+}
+
+model ReleaseRequest {
+  id           String   @id @default(cuid())
+  reason       String
+  status       ReleaseStatus @default(PENDING)
+  remarks      String?
+  requestedAt  DateTime @default(now())
+  decidedAt    DateTime?
+
+  fdrId        String
+  fdr          FdrInstrument @relation(fields: [fdrId], references: [id])
+
+  @@index([status, requestedAt])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  entityType  String
+  entityId    String
+  before      Json?
+  after       Json?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  userId      String?
+  user        User? @relation(fields: [userId], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

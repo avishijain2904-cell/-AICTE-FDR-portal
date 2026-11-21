@@ -1,0 +1,31 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+
+# Private FDR PDF uploads
+private_uploads/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Build files
+**/dist/
+**/build/
+
+# Private FDR documents
+**/private_uploads/
+
+# Generated Prisma files
+**/generated/prisma/
+
+# OS files
+.DS_Store
+Thumbs.db
